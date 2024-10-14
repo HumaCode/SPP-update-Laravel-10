@@ -1931,16 +1931,16 @@
         },
         {
             "name": "laravel-lang/http-statuses",
-            "version": "3.8.4",
+            "version": "3.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/http-statuses.git",
-                "reference": "0e8b1af2835f951f5587f6c635ea6b929f275415"
+                "reference": "d5ddb3c6cfafadb3a2e9d2d5d96d8d11a9130544"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/http-statuses/zipball/0e8b1af2835f951f5587f6c635ea6b929f275415",
-                "reference": "0e8b1af2835f951f5587f6c635ea6b929f275415",
+                "url": "https://api.github.com/repos/Laravel-Lang/http-statuses/zipball/d5ddb3c6cfafadb3a2e9d2d5d96d8d11a9130544",
+                "reference": "d5ddb3c6cfafadb3a2e9d2d5d96d8d11a9130544",
                 "shasum": ""
             },
             "require": {
@@ -1992,9 +1992,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Laravel-Lang/http-statuses/issues",
-                "source": "https://github.com/Laravel-Lang/http-statuses/tree/3.8.4"
+                "source": "https://github.com/Laravel-Lang/http-statuses/tree/3.8.5"
             },
-            "time": "2024-07-20T18:15:58+00:00"
+            "time": "2024-09-30T19:56:37+00:00"
         },
         {
             "name": "laravel-lang/json-fallback",

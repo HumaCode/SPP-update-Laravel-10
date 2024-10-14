@@ -42,6 +42,13 @@
                     </table>
 
                 </div>
+
+                <div class="card-footer">
+                    <a href="{{ route('kartuspp.index', [
+                        'siswa_id' => $siswa->id,
+                        'tahun'    => request('tahun'),
+                    ]) }}" class="btn btn-primary btn-sm"><i class="fas fa-file"></i> Kartu Tagihan 2024</a>
+                </div>
             </div>
         </div>
     </div>
@@ -78,33 +85,44 @@
                             </tfoot>
                         </table>
 
-                        <h5 class="mt-3">DATA PEMBAYARAN</h5>
-                        <table class="table table-striped table-sm">
-                            <thead>
-                                <tr>
-                                    <td class="text-center">#</td>
-                                    <td>Tanggal</td>
-                                    <td>Jumlah</td>
-                                    <td>Metode Bayar</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($tagihan->pembayaran as $item)
-                                    <tr>
-                                        <td class="text-center">
-                                            <a href="" target="_blank"><i class="fa fa-print"></i></a>
-                                        </td>
-                                        <td>{{ $item->tanggal_bayar->translatedFormat('d/m/Y') }}</td>
-                                        <td>{{ formatRupiah($item->jumlah_dibayar) }}</td>
-                                        <td>{{ $item->metode_pembayaran }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
 
-
-                        <h5 class="my-3">Status Pembayaran : {{ strtoupper($tagihan->status) }}</h5>
                     </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card">
+                <h5 class="card-header">DATA PEMBAYARAN</h5>
+                <div class="card-body">
+
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <td class="text-center">#</td>
+                                <td>Tanggal</td>
+                                <td>Jumlah</td>
+                                <td>Metode Bayar</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($tagihan->pembayaran as $item)
+                                <tr>
+                                    <td class="text-center">
+                                        <a href="{{ route('kwitansipembayaran.show', $item->id) }}" target="_blank"><i class="fa fa-print"></i></a>
+                                    </td>
+                                    <td>{{ $item->tanggal_bayar->translatedFormat('d/m/Y') }}</td>
+                                    <td>{{ formatRupiah($item->jumlah_dibayar) }}</td>
+                                    <td>{{ $item->metode_pembayaran }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+
+                    <h5 class="my-3">Status Pembayaran : {{ strtoupper($tagihan->status) }}</h5>
+
 
                     <hr>
                     <h5>FORM PEMBAYARAN</h5>
@@ -129,14 +147,7 @@
                     </div>
 
                     {!! Form::close() !!}
-                </div>
-            </div>
-        </div>
-        <div class="col-md-7">
-            <div class="card">
-                <h5 class="card-header">KARTU SPP</h5>
-                <div class="card-body">
-                    Kartu SPP
+
                 </div>
             </div>
         </div>

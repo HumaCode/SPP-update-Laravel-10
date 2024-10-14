@@ -13,6 +13,7 @@ class Pembayaran extends Model
     protected $guarded = [];
     protected $table = 'pembayaran';
     protected $casts = ['tanggal_bayar' => 'datetime'];
+    protected $with = ['user', 'tagihan'];
 
 
     /**
@@ -34,5 +35,15 @@ class Pembayaran extends Model
         static::updating(function ($tagihan) {
             $tagihan->user_id = Auth::user()->id;
         });
+    }
+
+    /**
+     * Get the user that owns the Pembayaran
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

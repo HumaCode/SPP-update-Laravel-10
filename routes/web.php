@@ -3,12 +3,14 @@
 use App\Http\Controllers\BerandaOperatorController;
 use App\Http\Controllers\BerandaWaliController;
 use App\Http\Controllers\BiayaController;
+use App\Http\Controllers\KartuSppController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TagihanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WaliController;
 use App\Http\Controllers\WaliSiswaController;
+use App\Http\Controllers\KwitansiPembayaranController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +47,8 @@ Route::prefix('operator')->middleware(['auth', 'auth.operator'])->group(function
     Route::resource('biaya', BiayaController::class);
     Route::resource('tagihan', TagihanController::class);
     Route::resource('pembayaran', PembayaranController::class);
+    Route::get('kwitansi-pembayaran/{id}', [KwitansiPembayaranController::class, 'show'])->name('kwitansipembayaran.show');
+    Route::get('kartu-spp', [KartuSppController::class, 'index'])->name('kartuspp.index');
 });
 
 // wali
