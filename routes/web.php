@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BankSekolahController;
 use App\Http\Controllers\BerandaOperatorController;
 use App\Http\Controllers\BerandaWaliController;
 use App\Http\Controllers\BiayaController;
@@ -43,6 +44,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::prefix('operator')->middleware(['auth', 'auth.operator'])->group(function () {
     Route::get('beranda', [BerandaOperatorController::class, 'index'])->name('operator.beranda');
 
+    Route::resource('banksekolah', BankSekolahController::class);
     Route::resource('user', UserController::class);
     Route::resource('wali', WaliController::class);
     Route::resource('siswa', SiswaController::class);
