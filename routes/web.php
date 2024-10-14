@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BerandaOperatorController;
 use App\Http\Controllers\BerandaWaliController;
 use App\Http\Controllers\BiayaController;
@@ -11,6 +12,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WaliController;
 use App\Http\Controllers\WaliSiswaController;
 use App\Http\Controllers\KwitansiPembayaranController;
+use App\Http\Controllers\WaliMuridSiswaController;
+use App\Http\Controllers\WaliMuridTagihanController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -51,9 +54,15 @@ Route::prefix('operator')->middleware(['auth', 'auth.operator'])->group(function
     Route::get('kartu-spp', [KartuSppController::class, 'index'])->name('kartuspp.index');
 });
 
+Route::get('login-wali-murid', [LoginController::class, 'showLoginFormWali'])->name('login.wali');
+
+
 // wali
-Route::prefix('walimurid')->middleware(['auth', 'auth.wali'])->group(function () {
-    Route::get('beranda', [BerandaWaliController::class, 'index'])->name('wali.beranda');
+Route::prefix('walimurid')->middleware(['auth', 'auth.wali'])->name('wali.')->group(function () {
+    Route::get('beranda', [BerandaWaliController::class, 'index'])->name('beranda');
+
+    Route::resource('siswa', WaliMuridSiswaController::class);
+    Route::resource('tagihan', WaliMuridTagihanController::class);
 });
 
 // admin

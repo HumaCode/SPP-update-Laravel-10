@@ -40,6 +40,16 @@ class LoginController extends Controller
         $this->middleware('auth')->only('logout');
     }
 
+    public function showLoginForm()
+    {
+        return view('auth.login_sneate');
+    }
+
+    public function showLoginFormWali()
+    {
+        return view('auth.login_sneate_wali');
+    }
+
     public function authenticated(Request $request, $user)
     {
         if ($user->akses == 'operator' || $user->akses == 'admin') {

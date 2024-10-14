@@ -52,6 +52,18 @@ class Tagihan extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getStatusTagihanWali()
+    {
+        if ($this->status == 'baru') {
+            return 'Belum dibayar';
+        }
+
+        if ($this->status == 'lunas') {
+            return 'Sudah dibayar';
+        }
+        return $this->status;
+    }
+
     /**
      * Get the siswa that owns the Tagihan
      *

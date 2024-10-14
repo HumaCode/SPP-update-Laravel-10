@@ -46,8 +46,9 @@
                 <div class="card-footer">
                     <a href="{{ route('kartuspp.index', [
                         'siswa_id' => $siswa->id,
-                        'tahun'    => request('tahun'),
-                    ]) }}" class="btn btn-primary btn-sm"><i class="fas fa-file"></i> Kartu Tagihan 2024</a>
+                        'tahun' => request('tahun'),
+                    ]) }}"
+                        class="btn btn-primary btn-sm"><i class="fas fa-file"></i> Kartu Tagihan 2024</a>
                 </div>
             </div>
         </div>
@@ -86,70 +87,74 @@
                         </table>
 
 
+
                     </div>
 
 
+                </div>
+
+                <div class="card">
+                    <h5 class="card-header">DATA PEMBAYARAN</h5>
+                    <div class="card-body">
+
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <td class="text-center">#</td>
+                                    <td>Tanggal</td>
+                                    <td>Jumlah</td>
+                                    <td>Metode Bayar</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($tagihan->pembayaran as $item)
+                                    <tr>
+                                        <td class="text-center">
+                                            <a href="{{ route('kwitansipembayaran.show', $item->id) }}" target="_blank"><i
+                                                    class="fa fa-print"></i></a>
+                                        </td>
+                                        <td>{{ $item->tanggal_bayar->translatedFormat('d/m/Y') }}</td>
+                                        <td>{{ formatRupiah($item->jumlah_dibayar) }}</td>
+                                        <td>{{ $item->metode_pembayaran }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+
+                        <h5 class="my-3">Status Pembayaran : {{ strtoupper($tagihan->status) }}</h5>
+
+
+                        <hr>
+                        <h5>FORM PEMBAYARAN</h5>
+
+                        {!! Form::model($model, ['route' => 'pembayaran.store', 'method' => 'POST']) !!}
+                        {!! Form::hidden('tagihan_id', $tagihan->id, []) !!}
+
+                        <div class="form-group mb-2">
+                            <label for="tanggal_bayar" class="mb-1">Tanggal Pembayaran</label>
+                            {!! Form::date('tanggal_bayar', $model->tanggal_tagihan ?? date('Y-m-d'), ['class' => 'form-control']) !!}
+                            <span class="text-danger">{{ $errors->first('tanggal_bayar') }}</span>
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label for="jumlah_dibayar" class="mb-1">Jumlah Yang Dibayarkan</label>
+                            {!! Form::text('jumlah_dibayar', null, ['class' => 'form-control rupiah']) !!}
+                            <span class="text-danger">{{ $errors->first('jumlah_dibayar') }}</span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            {!! Form::submit('SIMPAN', ['class' => 'btn btn-primary mt-3']) !!}
+                        </div>
+
+                        {!! Form::close() !!}
+
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-7">
-            <div class="card">
-                <h5 class="card-header">DATA PEMBAYARAN</h5>
-                <div class="card-body">
 
-                    <table class="table table-striped table-sm">
-                        <thead>
-                            <tr>
-                                <td class="text-center">#</td>
-                                <td>Tanggal</td>
-                                <td>Jumlah</td>
-                                <td>Metode Bayar</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($tagihan->pembayaran as $item)
-                                <tr>
-                                    <td class="text-center">
-                                        <a href="{{ route('kwitansipembayaran.show', $item->id) }}" target="_blank"><i class="fa fa-print"></i></a>
-                                    </td>
-                                    <td>{{ $item->tanggal_bayar->translatedFormat('d/m/Y') }}</td>
-                                    <td>{{ formatRupiah($item->jumlah_dibayar) }}</td>
-                                    <td>{{ $item->metode_pembayaran }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
-
-                    <h5 class="my-3">Status Pembayaran : {{ strtoupper($tagihan->status) }}</h5>
-
-
-                    <hr>
-                    <h5>FORM PEMBAYARAN</h5>
-
-                    {!! Form::model($model, ['route' => 'pembayaran.store', 'method' => 'POST']) !!}
-                    {!! Form::hidden('tagihan_id', $tagihan->id, []) !!}
-
-                    <div class="form-group mb-2">
-                        <label for="tanggal_bayar" class="mb-1">Tanggal Pembayaran</label>
-                        {!! Form::date('tanggal_bayar', $model->tanggal_tagihan ?? date('Y-m-d'), ['class' => 'form-control']) !!}
-                        <span class="text-danger">{{ $errors->first('tanggal_bayar') }}</span>
-                    </div>
-
-                    <div class="form-group mb-2">
-                        <label for="jumlah_dibayar" class="mb-1">Jumlah Yang Dibayarkan</label>
-                        {!! Form::text('jumlah_dibayar', null, ['class' => 'form-control rupiah']) !!}
-                        <span class="text-danger">{{ $errors->first('jumlah_dibayar') }}</span>
-                    </div>
-
-                    <div class="d-grid gap-2">
-                        {!! Form::submit('SIMPAN', ['class' => 'btn btn-primary mt-3']) !!}
-                    </div>
-
-                    {!! Form::close() !!}
-
-                </div>
-            </div>
         </div>
     </div>
 @endsection
