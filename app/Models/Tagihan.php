@@ -64,6 +64,12 @@ class Tagihan extends Model
         return $this->status;
     }
 
+
+    public function scopeWaliSiswa($q)
+    {
+        return $q->whereIn('siswa_id', Auth::user()->getAllSiswaId());
+    }
+
     /**
      * Get the siswa that owns the Tagihan
      *

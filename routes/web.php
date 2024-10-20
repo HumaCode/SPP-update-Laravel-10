@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WaliController;
 use App\Http\Controllers\WaliSiswaController;
 use App\Http\Controllers\KwitansiPembayaranController;
+use App\Http\Controllers\WaliMuridPembayaranController;
 use App\Http\Controllers\WaliMuridSiswaController;
 use App\Http\Controllers\WaliMuridTagihanController;
 use Illuminate\Support\Facades\Auth;
@@ -65,6 +66,7 @@ Route::prefix('walimurid')->middleware(['auth', 'auth.wali'])->name('wali.')->gr
 
     Route::resource('siswa', WaliMuridSiswaController::class);
     Route::resource('tagihan', WaliMuridTagihanController::class);
+    Route::resource('pembayaran', WaliMuridPembayaranController::class);
 });
 
 // admin

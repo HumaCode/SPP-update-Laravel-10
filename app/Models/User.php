@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Siswa::class, 'wali_id', 'id');
     }
+
+    public function getAllSiswaId()
+    {
+        return $this->siswa->pluck('id')->toArray();
+    }
 }
