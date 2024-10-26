@@ -11,7 +11,20 @@
 
 
     <script>
+        $(function() {
+            $("#checkboxtoogle").click(function() {
+                if ($(this).is(":checked")) {
+                    $("#form_bank_pengirim").fadeIn()
+                } else {
+                    $("#form_bank_pengirim").fadeOut()
+                }
+            })
+        })
+
+
         $(document).ready(function() {
+
+
             $('.select2').select2();
 
             $('.rupiah').mask("#.##0", {
@@ -23,6 +36,12 @@
 
                 window.location.href = "{{ $url }}&bank_sekolah_id=" + bankId;
             });
+
+            if (count($listWaliBank) >= 1) {
+                $("#form_bank_pengirim").hide();
+            } else {
+                $("#form_bank_pengirim").show();
+            }
         });
     </script>
 @endpush
@@ -45,39 +64,68 @@
                         </div>
                     </div>
 
+
+
+
                     <div class="card mb-3" style="background-color: rgb(236, 236, 236)">
                         <div class="card-body text-dark">
-                            <div class="alert alert-danger" role="alert"><i class="fa-solid fa-triangle-exclamation"></i>
-                                &nbsp;
-                                Informasi ini dibutuhkan agar operator sekolah dapat memverifikasi pembayaran yang dilakukan
-                                oleh wali murid melalui bank.
-                            </div>
 
-                            <div class="form-group mb-3">
-                                <label for="nama_bank_pengirim" class="mb-2">Nama Bank Pengirim</label>
-                                {!! Form::select('nama_bank_pengirim', $listBank, null, [
-                                    'class' => 'form-control select2',
-                                    'placeholder' => '-- Pilih Bank --',
-                                ]) !!}
-                                <span class="text-danger">{{ $errors->first('nama_bank_pengirim') }}</span>
-                            </div>
+                            @if (count($listWaliBank) >= 1)
+                                <div class="form-group mb-3">
+                                    <label for="bank_id_pengirim" class="mb-2">Pilih Bank Pengirim</label>
+                                    {!! Form::select('bank_id_pengirim', $listWaliBank, null, [
+                                        'class' => 'form-control select2',
+                                        'placeholder' => '-- Pilih Nomor Rekening Pengirim --',
+                                    ]) !!}
+                                    <span class="text-danger">{{ $errors->first('bank_id_pengirim') }}</span>
+                                </div>
 
-                            <div class="form-group mb-3">
-                                <label for="rekening_bank_pengirim" class="mb-2">Nama Pengirim</label>
-                                {!! Form::text('rekening_bank_pengirim', null, ['class' => 'form-control']) !!}
-                                <span class="text-danger">{{ $errors->first('rekening_bank_pengirim') }}</span>
-                            </div>
 
-                            <div class="form-group mb-3">
-                                <label for="no_rekening_bank_pengirim" class="mb-2">Nomor Rekening Pengirim </label>
-                                {!! Form::number('no_rekening_bank_pengirim', null, ['class' => 'form-control']) !!}
-                                <span class="text-danger">{{ $errors->first('no_rekening_bank_pengirim') }}</span>
-                            </div>
+                                <div class="form-check mb-3">
+                                    {!! Form::checkbox('bank_pengirim_baru', 1, false, ['class' => 'form-check-input', 'id' => 'checkboxtoogle']) !!}
+                                    <label class="form-check-label" for="checkboxtoogle"> Saya Menggunakan Rekening Lain.
+                                    </label>
+                                </div>
+                            @endif
 
-                            <div class="form-check mb-3">
-                                {!! Form::checkbox('simpan_data_rekening', 1, true, ['class' => 'form-check-input', 'id' => 'defaultCheck1']) !!}
-                                <label class="form-check-label" for="defaultCheck1"> Simpan data ini untuk memudahkan
-                                    pembayaran selanjutnya. </label>
+
+
+                            <div id="form_bank_pengirim">
+                                <hr>
+                                <div class="alert alert-danger" role="alert"><i
+                                        class="fa-solid fa-triangle-exclamation"></i>
+                                    &nbsp;
+                                    Informasi ini dibutuhkan agar operator sekolah dapat memverifikasi pembayaran yang
+                                    dilakukan
+                                    oleh wali murid melalui bank.
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="nama_bank_pengirim" class="mb-2">Nama Bank Pengirim</label>
+                                    {!! Form::select('nama_bank_pengirim', $listBank, null, [
+                                        'class' => 'form-control select2',
+                                        'placeholder' => '-- Pilih Bank --',
+                                    ]) !!}
+                                    <span class="text-danger">{{ $errors->first('nama_bank_pengirim') }}</span>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="rekening_bank_pengirim" class="mb-2">Nama Pengirim</label>
+                                    {!! Form::text('rekening_bank_pengirim', null, ['class' => 'form-control']) !!}
+                                    <span class="text-danger">{{ $errors->first('rekening_bank_pengirim') }}</span>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="no_rekening_bank_pengirim" class="mb-2">Nomor Rekening Pengirim </label>
+                                    {!! Form::number('no_rekening_bank_pengirim', null, ['class' => 'form-control']) !!}
+                                    <span class="text-danger">{{ $errors->first('no_rekening_bank_pengirim') }}</span>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    {!! Form::checkbox('simpan_data_rekening', 1, true, ['class' => 'form-check-input', 'id' => 'defaultCheck1']) !!}
+                                    <label class="form-check-label" for="defaultCheck1"> Simpan data ini untuk memudahkan
+                                        pembayaran selanjutnya. </label>
+                                </div>
                             </div>
                         </div>
                     </div>

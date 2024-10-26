@@ -6,12 +6,15 @@ use App\Models\Bank;
 use App\Models\BankSekolah;
 use App\Models\Pembayaran;
 use App\Models\Tagihan;
+use App\Models\WaliBank;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WaliMuridPembayaranController extends Controller
 {
     public function create(Request $request)
     {
+        $data['listWaliBank']       = WaliBank::where('wali_id', Auth::user()->id)->get()->pluck('nama_bank_full', 'id');
         $data['tagihan']            = Tagihan::waliSiswa()->findOrFail($request->tagihan_id);
         // $data['bankSekolah']    = BankSekolah::findOrFail($request->bank_sekolah_id);
         $data['listBankSekolah']    = BankSekolah::pluck('nama_bank', 'id');
