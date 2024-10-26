@@ -62,7 +62,8 @@
 
                     <a href="{{ route('wali.tagihan.show', $tagihan->id) }}" class="btn btn-danger my-2 btn-sm">Kembali</a>
 
-                    {!! Form::model($model, ['route' => $route, 'method' => $method]) !!}
+                    {!! Form::model($model, ['route' => $route, 'method' => $method, 'files' => true]) !!}
+                    {!! Form::hidden('tagihan_id', request('tagihan_id'), []) !!}
 
                     <div class="divider">
                         <div class="divider-text">
@@ -146,13 +147,13 @@
                     <div class="card mb-3" style="background-color: rgb(236, 236, 236)">
                         <div class="card-body text-dark">
                             <div class="form-group mb-3">
-                                <label for="bank_id" class="mb-2">Bank Tujuan</label>
-                                {!! Form::select('bank_id', $listBankSekolah, request('bank_sekolah_id'), [
+                                <label for="bank_sekolah_id" class="mb-2">Bank Tujuan</label>
+                                {!! Form::select('bank_sekolah_id', $listBankSekolah, request('bank_sekolah_id'), [
                                     'class' => 'form-control',
                                     'placeholder' => '-- Pilih Bank Tujuan Tranfer --',
                                     'id' => 'pilih_bank',
                                 ]) !!}
-                                <span class="text-danger">{{ $errors->first('bank_id') }}</span>
+                                <span class="text-danger">{{ $errors->first('bank_sekolah_id') }}</span>
                             </div>
 
                             @if (request('bank_sekolah_id') != '')
@@ -196,12 +197,17 @@
 
                             <div class="form-group mb-3">
                                 <label for="jumlah_dibayar" class="mb-2">Jumlah Yang Dibayarkan</label>
-                                {!! Form::text('jumlah_dibayar', null, ['class' => 'form-control rupiah']) !!}
+                                {!! Form::text('jumlah_dibayar', $tagihan->tagihanDetails->sum('jumlah_biaya'), [
+                                    'class' => 'form-control rupiah',
+                                    'readonly' => true,
+                                ]) !!}
                                 <span class="text-danger">{{ $errors->first('jumlah_dibayar') }}</span>
                             </div>
 
                             <div class="form-group mb-3">
-                                <label for="bukti_bayar" class="mb-2">Bukti Pembayaran</label>
+                                <label for="bukti_bayar" class="mb-2">Bukti Pembayaran <span class="text-danger">(Format
+                                        yang dibolehkan adalah JPG,
+                                        JPEG, PNG, maksimal 5MB)</span></label>
                                 {!! Form::file('bukti_bayar', ['class' => 'form-control']) !!}
                                 <span class="text-danger">{{ $errors->first('bukti_bayar') }}</span>
                             </div>

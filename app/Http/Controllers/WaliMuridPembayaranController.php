@@ -38,6 +38,11 @@ class WaliMuridPembayaranController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->wali_bank_id == '' && $request->nomor_rekening == '') {
+            flash('Silahkan pilih bank pengirim')->error();
+            return back();
+        }
+
         if ($request->filled('pilihan_bank')) {
             $bankPengirimId         = $request->nama_bank_pengirim;
 
@@ -66,6 +71,30 @@ class WaliMuridPembayaranController extends Controller
             $waliBank       = WaliBank::findOrFail($waliBankId);
         }
 
-        dd($waliBank);
+        $request->validate([
+            'tanggal_bayar'     => 'required',
+            'jumlah_bayar'      => 'required',
+            'bukti_bayar'       => 'required|image|mimes:jpg,jpeg,png|max:5048',
+        ]);
+
+        $buktiBayar     = $request->file('bukti_bayar')->store('public/buktibayar');
+
+        $dataPembayaran = [
+            'bank_sekolah_id'   => $request->bank_sekolah_id,
+            'wali_bank_id'      => $waliBank->id,
+            'tagihan_id'        => $request->tagihan_id,
+            'wali_id'           => Auth::user()->id,
+            'tanggal_bayar'     => $request->tanggal_bayar,
+            'status_konfirmasi' => 'belum',
+            'jumlah_dibayar'    => str_replace('.', '', $request->jumlah_dibayar),
+            'bukti_bayar'       => $buktiBayar,
+            'metode_pembayaran' => 'tranfer',
+            'user_id'           => 0,
+        ];
+
+        Pembayaran::create($dataPembayaran);
+
+        flash('Pembayaran berhasil disimpan dan akan segera dikonfirmasi oleh operator')->success();
+        return back();
     }
 }
